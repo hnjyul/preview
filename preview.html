@@ -16,6 +16,7 @@
   html, body { margin: 0; padding: 0; background: #f4f7fb;color: #1A1A18;word-break: keep-all;word-wrap: break-word; }
   a { color: #1B4CD8; text-decoration: none; }
   a:hover { color: #12328F; }
+  @media (max-width:30rem) { [data-qr-block] { display: none; } }
   [data-scan-scroll]::-webkit-scrollbar { width: 6px; }
   [data-scan-scroll]::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 3px; }
   [data-scan-scroll]::-webkit-scrollbar-track { background: transparent; }
@@ -54,7 +55,7 @@
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateA.ring }}; border-radius: 20px; box-shadow: {{ stateA.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/A.png" alt="A안 시안" style="display: block; width: 100%;" />
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+        <div data-qr-block="true" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
           <img src="assets/qr-A.svg" alt="A안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
           
           <div style="font-size:12px;line-height: 1.4; color: rgba(0,0,0,0.7);">
@@ -73,7 +74,7 @@
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateB.ring }}; border-radius: 20px; box-shadow: {{ stateB.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/B.png" alt="B안 시안" style="display: block; width: 100%;" />
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+        <div data-qr-block="true" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
           <img src="assets/qr-B.svg" alt="B안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
           
           <div style="font-size:12px;line-height: 1.4; color: rgba(0,0,0,0.7);">
@@ -92,7 +93,7 @@
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateC.ring }}; border-radius: 20px; box-shadow: {{ stateC.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/C.png" alt="C안 시안" style="display: block; width: 100%;" />
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+        <div data-qr-block="true" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
           <img src="assets/qr-C.svg" alt="C안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
           
           <div style="font-size:12px;line-height: 1.4; color: rgba(0,0,0,0.7);">
@@ -111,7 +112,7 @@
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateD.ring }}; border-radius: 20px; box-shadow: {{ stateD.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/D.png" alt="D안 시안" style="display: block; width: 100%;" />
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+        <div data-qr-block="true" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
           <img src="assets/qr-D.svg" alt="D안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
           
           <div style="font-size:12px;line-height: 1.4; color: rgba(0,0,0,0.7);">
@@ -131,7 +132,7 @@
           <img src="assets/E.png" alt="E안 시안" style="display:block; width: 100%;" />
         </div>
         
-        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+        <div data-qr-block="true" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
           <img src="assets/qr-E.svg" alt="E안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
           <div style="font-size:12px;line-height: 1.4; color: rgba(0,0,0,0.7);">
             <strong style="color: #000;display: block;font-size:120%; margin-bottom:5px;">프리미엄 모듈형 대시보드</strong>
