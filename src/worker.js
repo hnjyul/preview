@@ -104,7 +104,7 @@ function sheetPage(id) {
 <body>
 <header><h1>${id}안</h1><a href="/">← 전체 시안 보기</a></header>
 <main><img src="/assets/${id}.png" alt="${id}안 시안"></main>
-<footer>한국수력원자력 디자인 시안</footer>
+<footer>&#169; Team A. All rights reserved.</footer>
 </body>
 </html>`;
 }
