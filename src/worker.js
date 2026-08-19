@@ -23,12 +23,13 @@ function readCookie(header, name) {
 }
 
 // 투표자 식별: ?r=<토큰>(개인 링크)이 있으면 그것을, 없으면 서버 발급 쿠키를 쓴다.
+// hadCookie 는 지난 라운드의 쿠키가 브라우저에 남아 있는지 — 투표 off 일 때 만료시키는 데 쓴다.
 function resolveVoter(request, url) {
-  const token = (url.searchParams.get("r") || "").trim();
-  if (token) return { id: "r:" + token.slice(0, 64), isNew: false };
   const c = readCookie(request.headers.get("Cookie"), COOKIE_NAME);
-  if (c) return { id: "c:" + c, isNew: false };
-  return { id: "c:" + crypto.randomUUID(), isNew: true };
+  const token = (url.searchParams.get("r") || "").trim();
+  if (token) return { id: "r:" + token.slice(0, 64), isNew: false, hadCookie: !!c };
+  if (c) return { id: "c:" + c, isNew: false, hadCookie: true };
+  return { id: "c:" + crypto.randomUUID(), isNew: true, hadCookie: false };
 }
 
 async function readState(env, voter) {
@@ -44,7 +45,9 @@ async function readState(env, voter) {
   const row = (mine.results || [])[0];
   return {
     votes,
-    myVote: row ? row.choice : null,
+    // 투표 기능이 꺼져 있으면 지난 투표 이력을 내보내지 않는다.
+    // (내보내면 화면에서 선택 테두리로 남아 "투표한 흔적"이 계속 보인다)
+    myVote: VOTE_ENABLED && row ? row.choice : null,
     closed: isClosed(),
     deadline: VOTE_DEADLINE,
     voteEnabled: VOTE_ENABLED,
@@ -52,8 +55,15 @@ async function readState(env, voter) {
 }
 
 function cookieFor(voter, url) {
-  if (!voter.isNew) return null;
   const secure = url.protocol === "https:" ? "; Secure" : "";
+  // 투표가 꺼져 있으면 식별할 이유가 없다 — 새로 발급하지 않고,
+  // 지난 라운드에 남은 쿠키는 Max-Age=0 으로 지운다(첫 /api/state 응답에서 정리된다).
+  if (!VOTE_ENABLED) {
+    return voter.hadCookie
+      ? COOKIE_NAME + "=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax" + secure
+      : null;
+  }
+  if (!voter.isNew) return null;
   return COOKIE_NAME + "=" + voter.id.slice(2) +
     "; Path=/; Max-Age=" + COOKIE_MAX_AGE + "; HttpOnly; SameSite=Lax" + secure;
 }
