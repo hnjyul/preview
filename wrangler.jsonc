@@ -4,6 +4,13 @@
   "main": "src/worker.js",
   "compatibility_date": "2026-08-19",
   "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "VOTES_DB",
+      "database_name": "preview-votes",
+      "database_id": "6e3c1a4f-6e36-42c4-af25-18b037269301"
+    }
+  ],
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
