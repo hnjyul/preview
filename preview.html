@@ -173,6 +173,7 @@ class Component extends DCLogic {
       sync: p.syncScroll ?? false,
       votes: { A: 0, B: 0, C: 0, D: 0, E: 0 },
       myVote: null,
+      pending: null,
       closed: false,
       deadline: null,
       voteEnabled: false,
@@ -215,13 +216,27 @@ class Component extends DCLogic {
       const d = await r.json();
       this.applyState(d);
       this.setState({ err: null });
+      return d;
     } catch (e) {
       this.setState({ loaded: true, busy: false, err: '집계를 불러오지 못했습니다' });
+      return null;
     }
   }
-  async onVote(id) {
+  // 1클릭 = 선택(pending), 2클릭 = 확정(submit).
+  // 확정하면 서버가 1인 1표로 잠가 되돌릴 수 없으므로, 그 전에 되돌릴 수 있는 지점을 한 번 둔다.
+  onVote(id) {
     const s = this.state;
     if (!s.voteEnabled || !s.loaded || s.busy || s.closed || s.myVote) return;
+    if (s.pending !== id) {
+      this._pendingAt = Date.now();
+      this.setState({ pending: id, err: null });
+      return;
+    }
+    // 더블클릭이 선택·확정을 한 번에 통과하지 못하게 한다.
+    if (Date.now() - (this._pendingAt || 0) < 400) return;
+    this.submit(id);
+  }
+  async submit(id) {
     this.setState({ busy: true, err: null });
     try {
       const r = await fetch(api('/api/vote'), {
@@ -232,10 +247,26 @@ class Component extends DCLogic {
       const d = await r.json().catch(() => null);
       if (!d || !d.votes) throw new Error('vote ' + r.status);
       this.applyState(d);
-      if (d.error === 'already_voted') this.setState({ err: '이미 투표하셨습니다' });
-      if (d.error === 'closed') this.setState({ err: null });
+      this.settle(d.myVote, id);
     } catch (e) {
-      this.setState({ busy: false, err: '투표 전송에 실패했습니다. 잠시 후 다시 시도해 주세요' });
+      // 응답만 유실되고 서버에는 저장됐을 수 있다.
+      // 여기서 끊으면 "실패한 줄 알고 다시 눌렀는데 첫 선택이 확정돼 있는" 상태가 된다 →
+      // 서버 상태를 다시 읽어 실제로 접수됐는지 판정한다.
+      const d = await this.refresh();
+      if (d) this.settle(d.myVote, id);
+      else this.setState({ busy: false, pending: id, err: '투표 전송 결과를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요' });
+    }
+  }
+  // 접수 판정은 클라이언트 낙관값이 아니라 서버가 실제로 기록한 myVote 로만 한다.
+  settle(serverVote, id) {
+    if (serverVote === id) {
+      this.setState({ busy: false, pending: null, err: null });
+    } else if (serverVote) {
+      this.setState({ busy: false, pending: null, err: serverVote + '안으로 이미 투표되어 있습니다. 변경할 수 없습니다' });
+    } else if (this.state.closed) {
+      this.setState({ busy: false, pending: null, err: null });
+    } else {
+      this.setState({ busy: false, pending: id, err: '투표가 접수되지 않았습니다. 다시 확정해 주세요' });
     }
   }
   toggleSync() { this.setState(s => ({ sync: !s.sync })); }
@@ -253,18 +284,21 @@ class Component extends DCLogic {
   }
   voteInfo(id) {
     const s = this.state;
-    const selected = s.myVote === id;
+    const selected = s.voteEnabled && s.myVote === id;           // 서버에 기록된 확정표
+    const pending = !s.myVote && !s.closed && s.pending === id;  // 확정 전 선택
     const locked = !s.voteEnabled || !s.loaded || s.busy || s.closed || !!s.myVote;
     const count = s.votes[id] || 0;
     return {
-      ring: selected ? '2px solid #1B4CD8' : '1px solid #E4E1D9',
-      shadow: selected
+      ring: selected ? '2px solid #1B4CD8' : (pending ? '2px dashed #1B4CD8' : '1px solid #E4E1D9'),
+      shadow: selected || pending
         ? '0 1px 2px rgba(24,22,18,.04), 0 16px 32px -16px rgba(27,76,216,.38)'
         : '0 1px 2px rgba(24,22,18,.04), 0 12px 28px -18px rgba(24,22,18,.22)',
       btnBg: selected ? (s.closed ? '#93A9DF' : '#1B4CD8') : (locked ? '#EFEEEA' : '#fff'),
-      btnFg: selected ? '#fff' : (locked ? '#B0AC9F' : '#1A1A18'),
-      btnBorder: selected ? (s.closed ? '#93A9DF' : '#1B4CD8') : (locked ? '#E4E1D9' : '#DDDAD2'),
-      btnLabel: selected ? '✓ 투표완료' : (s.closed ? '투표 마감' : '투표하기'),
+      btnFg: selected ? '#fff' : (locked ? '#B0AC9F' : (pending ? '#1B4CD8' : '#1A1A18')),
+      btnBorder: selected ? (s.closed ? '#93A9DF' : '#1B4CD8') : (locked ? '#E4E1D9' : (pending ? '#1B4CD8' : '#DDDAD2')),
+      btnLabel: selected
+        ? '✓ 투표완료'
+        : (s.closed ? '투표 마감' : (pending ? (s.busy ? '전송 중…' : id + '안으로 확정하기') : '투표하기')),
       btnCursor: !s.loaded ? 'default' : (s.busy ? 'wait' : (locked ? 'not-allowed' : 'pointer')),
       disabled: locked,
       countLabel: s.voteEnabled ? count + '표' : ''
@@ -275,10 +309,12 @@ class Component extends DCLogic {
     if (!s.voteEnabled) return ['#B0AC9F', ''];
     if (s.err) return ['#C0392B', s.err];
     if (!s.loaded) return ['#B0AC9F', '집계 불러오는 중…'];
+    if (s.busy) return ['#1B4CD8', '투표 접수 중… 창을 닫지 마세요'];
     const when = s.deadline ? fmtDeadline(s.deadline) : '';
     if (s.closed) return ['#C0392B', '투표가 마감되었습니다' + (when ? ' (' + when + ')' : '')];
-    if (s.myVote) return ['#1B4CD8', '투표 완료 · 변경할 수 없습니다' + (when ? ' · 마감 ' + when : '')];
-    return ['#B0AC9F', (when ? '투표 마감 ' + when + ' · ' : '') + '1인 1표, 변경 불가'];
+    if (s.myVote) return ['#1B4CD8', '✓ ' + s.myVote + '안 투표 완료 · 변경할 수 없습니다' + (when ? ' · 마감 ' + when : '')];
+    if (s.pending) return ['#1B4CD8', s.pending + '안 선택됨 — 버튼을 한 번 더 눌러 확정하세요 · 다른 안을 누르면 선택이 바뀝니다'];
+    return ['#B0AC9F', (when ? '투표 마감 ' + when + ' · ' : '') + '1인 1표, 확정 후 변경 불가'];
   }
   renderVals() {
     const sync = this.state.sync;
