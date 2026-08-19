@@ -74,7 +74,7 @@ function sheetPage(id) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>${id}안 · 한국수력원자력 모바일 앱 디자인 시안</title>
+<title>${id}안 · 한국수력원자력 디자인 시안</title>
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: #f3f4f5; color: #1A1A18; word-break: keep-all;
@@ -94,7 +94,7 @@ function sheetPage(id) {
 <body>
 <header><h1>${id}안</h1><a href="/">← 전체 시안 보기</a></header>
 <main><img src="/assets/${id}.png" alt="${id}안 시안"></main>
-<footer>한국수력원자력 모바일 앱 디자인 시안</footer>
+<footer>한국수력원자력 디자인 시안</footer>
 </body>
 </html>`;
 }
