@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  html, body { margin: 0; padding: 0; background: #F2F1ED; }
+  a { color: #1B4CD8; text-decoration: none; }
+  a:hover { color: #12328F; }
+  [data-scan-scroll]::-webkit-scrollbar { width: 6px; }
+  [data-scan-scroll]::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 3px; }
+  [data-scan-scroll]::-webkit-scrollbar-track { background: transparent; }
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F2F1ED; font-family: Pretendard, -apple-system, sans-serif; color: #1A1A18; padding: 0 0 96px;">
+
+  <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: clamp(32px,6vw,56px) clamp(20px,5vw,56px) 0; max-width: 1840px; margin: 0 auto;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <span style="font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #8C8880; font-weight: 600;">Design Review</span>
+      <h1 style="margin: 0; font-size: clamp(24px,3vw,34px); font-weight: 700; letter-spacing: -.02em;">모바일 앱 디자인 시안</h1>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-bottom: 6px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="font-size: 13px; color: #8C8880; font-variant-numeric: tabular-nums;">총 투표 {{ totalVotes }}표</span>
+        <button onClick="{{ toggleSync }}" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color: #1A1A18; color: #1A1A18;">
+          <span style="width: 26px; height: 15px; border-radius: 999px; padding: 2px; display: block; transition: background .18s; background: {{ syncTrack }};">
+            <span style="display: block; width: 11px; height: 11px; border-radius: 999px; background: #fff; transition: transform .18s; transform: {{ syncKnob }};"></span>
+          </span>
+          스크롤 동기화
+        </button>
+      </div>
+      <span style="font-size: 11px; color: #B0AC9F;">투표는 이 브라우저에만 저장됩니다</span>
+    </div>
+  </header>
+
+  <div style="height: 1px; background: #E4E1D9; margin: 32px clamp(20px,5vw,56px) 44px; max-width: 1840px;"></div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; padding: 0 clamp(20px,5vw,56px); max-width: 1840px; margin: 0 auto;">
+
+    <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
+      <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: -.01em;">A안</span>
+        <span style="font-size: 12px; color: #8C8880; font-variant-numeric: tabular-nums;">{{ stateA.countLabel }}</span>
+      </figcaption>
+      <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateA.ring }}; border-radius: 20px; box-shadow: {{ stateA.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
+        <img src="assets/A.png" alt="A안 시안" style="display: block; width: 100%;" />
+      </div>
+      <button onClick="{{ voteA }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 0; border-radius: 11px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ stateA.btnBorder }}; background: {{ stateA.btnBg }}; color: {{ stateA.btnFg }}; transition: all .15s;">{{ stateA.btnLabel }}</button>
+    </figure>
+
+    <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
+      <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: -.01em;">B안</span>
+        <span style="font-size: 12px; color: #8C8880; font-variant-numeric: tabular-nums;">{{ stateB.countLabel }}</span>
+      </figcaption>
+      <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateB.ring }}; border-radius: 20px; box-shadow: {{ stateB.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
+        <img src="assets/B.png" alt="B안 시안" style="display: block; width: 100%;" />
+      </div>
+      <button onClick="{{ voteB }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 0; border-radius: 11px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ stateB.btnBorder }}; background: {{ stateB.btnBg }}; color: {{ stateB.btnFg }}; transition: all .15s;">{{ stateB.btnLabel }}</button>
+    </figure>
+
+    <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
+      <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: -.01em;">C안</span>
+        <span style="font-size: 12px; color: #8C8880; font-variant-numeric: tabular-nums;">{{ stateC.countLabel }}</span>
+      </figcaption>
+      <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateC.ring }}; border-radius: 20px; box-shadow: {{ stateC.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
+        <img src="assets/C-1.png" alt="C안 시안" style="display: block; width: 100%;" />
+      </div>
+      <button onClick="{{ voteC }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 0; border-radius: 11px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ stateC.btnBorder }}; background: {{ stateC.btnBg }}; color: {{ stateC.btnFg }}; transition: all .15s;">{{ stateC.btnLabel }}</button>
+    </figure>
+
+    <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
+      <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: -.01em;">D안</span>
+        <span style="font-size: 12px; color: #8C8880; font-variant-numeric: tabular-nums;">{{ stateD.countLabel }}</span>
+      </figcaption>
+      <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateD.ring }}; border-radius: 20px; box-shadow: {{ stateD.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
+        <img src="assets/D.png" alt="D안 시안" style="display: block; width: 100%;" />
+      </div>
+      <button onClick="{{ voteD }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 0; border-radius: 11px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ stateD.btnBorder }}; background: {{ stateD.btnBg }}; color: {{ stateD.btnFg }}; transition: all .15s;">{{ stateD.btnLabel }}</button>
+    </figure>
+
+    <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
+      <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: -.01em;">E안</span>
+        <span style="font-size: 12px; color: #8C8880; font-variant-numeric: tabular-nums;">{{ stateE.countLabel }}</span>
+      </figcaption>
+      <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateE.ring }}; border-radius: 20px; box-shadow: {{ stateE.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
+        <img src="assets/E.png" alt="E안 시안" style="display: block; width: 100%;" />
+      </div>
+      <button onClick="{{ voteE }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 0; border-radius: 11px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ stateE.btnBorder }}; background: {{ stateE.btnBg }}; color: {{ stateE.btnFg }}; transition: all .15s;">{{ stateE.btnLabel }}</button>
+    </figure>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;syncScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;보기 설정&quot;},&quot;frameRatio&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:1.4,&quot;max&quot;:2.6,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;보기 설정&quot;}}">
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      sync: p.syncScroll ?? true,
+      votes: { A: 0, B: 0, C: 0, D: 0, E: 0 },
+      myVote: null
+    };
+    this.onScroll = this.onScroll.bind(this);
+    this.toggleSync = this.toggleSync.bind(this);
+    this.onVote = this.onVote.bind(this);
+  }
+  componentDidMount() {
+    try {
+      const savedVotes = JSON.parse(localStorage.getItem('designReview5_votes') || 'null');
+      const savedMy = localStorage.getItem('designReview5_myVote') || null;
+      if (savedVotes) this.setState({ votes: savedVotes, myVote: savedMy });
+    } catch (e) {}
+  }
+  toggleSync() { this.setState(s => ({ sync: !s.sync })); }
+  onScroll(e) {
+    if (!this.state.sync || this._lock) return;
+    const el = e.currentTarget;
+    const range = el.scrollHeight - el.clientHeight;
+    if (range <= 0) return;
+    const ratio = el.scrollTop / range;
+    this._lock = true;
+    document.querySelectorAll('[data-scan-scroll]').forEach(o => {
+      if (o !== el) o.scrollTop = ratio * (o.scrollHeight - o.clientHeight);
+    });
+    requestAnimationFrame(() => { this._lock = false; });
+  }
+  onVote(id) {
+    this.setState(s => {
+      const votes = { ...s.votes };
+      let myVote = s.myVote;
+      if (myVote === id) {
+        votes[id] = Math.max(0, (votes[id] || 0) - 1);
+        myVote = null;
+      } else {
+        if (myVote) votes[myVote] = Math.max(0, (votes[myVote] || 0) - 1);
+        votes[id] = (votes[id] || 0) + 1;
+        myVote = id;
+      }
+      try {
+        localStorage.setItem('designReview5_votes', JSON.stringify(votes));
+        if (myVote) localStorage.setItem('designReview5_myVote', myVote);
+        else localStorage.removeItem('designReview5_myVote');
+      } catch (e) {}
+      return { votes, myVote };
+    });
+  }
+  voteInfo(id) {
+    const selected = this.state.myVote === id;
+    const count = this.state.votes[id] || 0;
+    return {
+      ring: selected ? '2px solid #1B4CD8' : '1px solid #E4E1D9',
+      shadow: selected
+        ? '0 1px 2px rgba(24,22,18,.04), 0 16px 32px -16px rgba(27,76,216,.38)'
+        : '0 1px 2px rgba(24,22,18,.04), 0 12px 28px -18px rgba(24,22,18,.22)',
+      btnBg: selected ? '#1B4CD8' : '#fff',
+      btnFg: selected ? '#fff' : '#1A1A18',
+      btnBorder: selected ? '#1B4CD8' : '#DDDAD2',
+      btnLabel: selected ? '✓ 투표완료' : '투표하기',
+      countLabel: count + '표'
+    };
+  }
+  renderVals() {
+    const sync = this.state.sync;
+    const ids = ['A', 'B', 'C', 'D', 'E'];
+    const totalVotes = ids.reduce((sum, id) => sum + (this.state.votes[id] || 0), 0);
+    const out = {
+      onScroll: this.onScroll,
+      toggleSync: this.toggleSync,
+      syncTrack: sync ? '#1A1A18' : '#D3CFC6',
+      syncKnob: sync ? 'translateX(11px)' : 'translateX(0)',
+      frameAspect: '1 / ' + (this.props.frameRatio ?? 2),
+      totalVotes
+    };
+    ids.forEach(id => {
+      out['state' + id] = this.voteInfo(id);
+      out['vote' + id] = () => this.onVote(id);
+    });
+    return out;
+  }
+}
+
+</script>
+</body>
+</html>
