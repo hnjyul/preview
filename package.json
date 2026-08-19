@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "qr": "node tools/gen-qr.mjs",
     "dev": "wrangler dev --local --ip 127.0.0.1 --port 8788",
     "deploy": "wrangler deploy --dry-run && wrangler deploy"
   },
   "devDependencies": {
+    "qrcode": "^1.5.4",
     "wrangler": "^4.121.0"
   }
 }

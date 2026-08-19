@@ -62,9 +62,55 @@ function json(body, status, setCookie) {
   return new Response(JSON.stringify(body), { status: status || 200, headers });
 }
 
+// 시안 1장을 휴대폰에서 보기 좋게 띄우는 최소 페이지. QR 코드가 이 주소를 가리킨다.
+function sheetPage(id) {
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>${id}안 · 모바일 앱 디자인 시안</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #f3f4f5; color: #1A1A18; word-break: keep-all;
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+  header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; padding: 14px 16px;
+    background: rgba(243,244,245,.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,.1); }
+  h1 { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+  a { color: #1B4CD8; text-decoration: none; font-size: 13px; white-space: nowrap; }
+  main { padding: 12px; }
+  img { display: block; width: 100%; height: auto; border-radius: 14px; background: #fff;
+    box-shadow: 0 1px 2px rgba(24,22,18,.04), 0 12px 28px -18px rgba(24,22,18,.22); }
+  footer { padding: 20px 16px 32px; text-align: center; font-size: 12px; color: #8C8880; }
+</style>
+</head>
+<body>
+<header><h1>${id}안</h1><a href="/">← 전체 시안 보기</a></header>
+<main><img src="/assets/${id}.png" alt="${id}안 시안"></main>
+<footer>모바일 앱 디자인 시안 · ${id}안</footer>
+</body>
+</html>`;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // 시안별 모바일 보기 (/s/A ~ /s/E) — QR 코드가 가리키는 주소
+    if (url.pathname.startsWith("/s/")) {
+      const id = url.pathname.slice(3).replace(/\/+$/, "").toUpperCase();
+      if (!CHOICES.includes(id)) {
+        return new Response("Not Found", { status: 404 });
+      }
+      return new Response(sheetPage(id), {
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "cache-control": "public, max-age=300",
+        },
+      });
+    }
 
     if (url.pathname === "/api/state" || url.pathname === "/api/vote") {
       const voter = resolveVoter(request, url);

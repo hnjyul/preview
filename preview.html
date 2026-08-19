@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
   html{ overflow:hidden; }
-  html, body { margin: 0; padding: 0; background: #f3f4f5;color: #1A1A18;word-break: keep-all;word-wrap: break-word; }
+  html, body { margin: 0; padding: 0; background: #f4f7fb;color: #1A1A18;word-break: keep-all;word-wrap: break-word; }
   a { color: #1B4CD8; text-decoration: none; }
   a:hover { color: #12328F; }
   [data-scan-scroll]::-webkit-scrollbar { width: 6px; }
@@ -57,6 +57,13 @@
           <strong style="color: #000;display: block;font-size:120%;margin-bottom:10px;">개인화 업무 대시보드형</strong>
           사용자 중심의 업무정보와 주요 서비스를 카드형 구조로 구성하여 개인화와 업무 효율을 균형 있게 제공합니다.
         </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+          <img src="assets/qr-A.svg" alt="A안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
+          <div style="font-size: 12px; line-height: 1.45; color: rgba(0,0,0,0.5);">
+            <strong style="display: block; color: #1A1A18; margin-bottom: 3px;">휴대폰으로 보기</strong>
+            카메라로 스캔하면 A안 시안이 열립니다
+          </div>
+        </div>
         <button onClick="{{ voteA }}" disabled="{{ stateA.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateA.btnCursor }}; border: 1px solid {{ stateA.btnBorder }}; background: {{ stateA.btnBg }}; color: {{ stateA.btnFg }}; transition: all .15s;">{{ stateA.btnLabel }}</button>
       </figure>
 
@@ -71,6 +78,13 @@
         <div style="color: rgba(0,0,0,0.5); font-size: 14px;line-height: 1.4;">
           <strong style="color: #000;display: block;font-size:120%;margin-bottom:10px;">브랜드 비주얼 강조형</strong>
           한수원 CI 컬러와 캐릭터를 적극 활용하여 친근함과 브랜드 아이덴티티를 강화한 메인 화면입니다.
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+          <img src="assets/qr-B.svg" alt="B안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
+          <div style="font-size: 12px; line-height: 1.45; color: rgba(0,0,0,0.5);">
+            <strong style="display: block; color: #1A1A18; margin-bottom: 3px;">휴대폰으로 보기</strong>
+            카메라로 스캔하면 B안 시안이 열립니다
+          </div>
         </div>
         <button onClick="{{ voteB }}" disabled="{{ stateB.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateB.btnCursor }}; border: 1px solid {{ stateB.btnBorder }}; background: {{ stateB.btnBg }}; color: {{ stateB.btnFg }}; transition: all .15s;">{{ stateB.btnLabel }}</button>
       </figure>
@@ -87,6 +101,13 @@
           <strong style="color: #000;display: block;font-size:120%;margin-bottom:10px;">통합 서비스 허브형</strong>
           내 정보·모바일사원증·전자명함을 하나의 영역에서 전환하도록 구성하여 서비스 연계성과 확장성을 강조합니다.
         </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+          <img src="assets/qr-C.svg" alt="C안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
+          <div style="font-size: 12px; line-height: 1.45; color: rgba(0,0,0,0.5);">
+            <strong style="display: block; color: #1A1A18; margin-bottom: 3px;">휴대폰으로 보기</strong>
+            카메라로 스캔하면 C안 시안이 열립니다
+          </div>
+        </div>
         <button onClick="{{ voteC }}" disabled="{{ stateC.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateC.btnCursor }}; border: 1px solid {{ stateC.btnBorder }}; background: {{ stateC.btnBg }}; color: {{ stateC.btnFg }}; transition: all .15s;">{{ stateC.btnLabel }}</button>
       </figure>
 
@@ -102,6 +123,13 @@
           <strong style="color: #000;display: block;font-size:120%;margin-bottom:10px;">정보 중심 업무포털형</strong>
           불필요한 장식을 줄이고 업무·일정·현황 데이터를 직접 노출하여 빠른 정보 확인과 실무 효율성에 초점을 맞췄습니다.
         </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+          <img src="assets/qr-D.svg" alt="D안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
+          <div style="font-size: 12px; line-height: 1.45; color: rgba(0,0,0,0.5);">
+            <strong style="display: block; color: #1A1A18; margin-bottom: 3px;">휴대폰으로 보기</strong>
+            카메라로 스캔하면 D안 시안이 열립니다
+          </div>
+        </div>
         <button onClick="{{ voteD }}" disabled="{{ stateD.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateD.btnCursor }}; border: 1px solid {{ stateD.btnBorder }}; background: {{ stateD.btnBg }}; color: {{ stateD.btnFg }}; transition: all .15s;">{{ stateD.btnLabel }}</button>
       </figure>
 
@@ -116,6 +144,13 @@
         <div style="color: rgba(0,0,0,0.5); font-size: 14px;line-height: 1.4;">
           <strong style="color: #000;display: block;font-size:120%;margin-bottom:10px;">프리미엄 모듈형 대시보드</strong>
           모듈형 카드 시스템을 적용하여 정보 성격별 UI를 체계적으로 구분하고 높은 완성도와 가독성을 제공하는 안입니다.
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #E4E1D9; border-radius: 12px; background: #fff;">
+          <img src="assets/qr-E.svg" alt="E안 모바일 보기 QR 코드" style="display: block; width: 58px; height: 58px; flex: none;" />
+          <div style="font-size: 12px; line-height: 1.45; color: rgba(0,0,0,0.5);">
+            <strong style="display: block; color: #1A1A18; margin-bottom: 3px;">휴대폰으로 보기</strong>
+            카메라로 스캔하면 E안 시안이 열립니다
+          </div>
         </div>
         <button onClick="{{ voteE }}" disabled="{{ stateE.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateE.btnCursor }}; border: 1px solid {{ stateE.btnBorder }}; background: {{ stateE.btnBg }}; color: {{ stateE.btnFg }}; transition: all .15s;">{{ stateE.btnLabel }}</button>
       </figure>
