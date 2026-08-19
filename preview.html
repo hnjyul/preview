@@ -16,7 +16,13 @@
   html, body { margin: 0; padding: 0; background: #f4f7fb;color: #1A1A18;word-break: keep-all;word-wrap: break-word; }
   a { color: #1B4CD8; text-decoration: none; }
   a:hover { color: #12328F; }
-  @media (max-width:30rem) { [data-qr-block] { display: none; } }
+  /* 좁은 화면: QR 은 자기 화면을 스캔할 수 없으므로 이미지만 감추고 설명은 남긴다.
+     대신 시안 원본(/s/<ID>)으로 가는 버튼을 띄운다.
+     런타임이 style 속성을 인라인으로 심어 규칙보다 우선하므로 !important 가 필요하다. */
+  @media (max-width:30rem) {
+    [data-qr-block] img { display: none !important; }
+    [data-mobile-open] { display: flex !important; }
+  }
   [data-scan-scroll]::-webkit-scrollbar { width: 6px; }
   [data-scan-scroll]::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 3px; }
   [data-scan-scroll]::-webkit-scrollbar-track { background: transparent; }
@@ -63,6 +69,7 @@
             업무정보와 주요 서비스를 카드형으로 구성해 개인화와 업무 효율을 균형 있게 제공합니다.
           </div>
         </div>
+        <a href="/s/A" data-mobile-open="true" style="display: none; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; border: 1px solid #DDDAD2; background: #fff; font-family: inherit; font-size: 14px; font-weight: 600; color: #1A1A18; text-decoration: none;">시안 확인</a>
         <button onClick="{{ voteA }}" disabled="{{ stateA.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateA.btnCursor }}; border: 1px solid {{ stateA.btnBorder }}; background: {{ stateA.btnBg }}; color: {{ stateA.btnFg }}; transition: all .15s;">{{ stateA.btnLabel }}</button>
       </figure>
 
@@ -82,6 +89,7 @@
             한수원 CI 컬러와 캐릭터를 활용해 친근함과 브랜드 아이덴티티를 강화합니다.
           </div>
         </div>
+        <a href="/s/B" data-mobile-open="true" style="display: none; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; border: 1px solid #DDDAD2; background: #fff; font-family: inherit; font-size: 14px; font-weight: 600; color: #1A1A18; text-decoration: none;">시안 확인</a>
         <button onClick="{{ voteB }}" disabled="{{ stateB.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateB.btnCursor }}; border: 1px solid {{ stateB.btnBorder }}; background: {{ stateB.btnBg }}; color: {{ stateB.btnFg }}; transition: all .15s;">{{ stateB.btnLabel }}</button>
       </figure>
 
@@ -101,6 +109,7 @@
             내 정보·모바일사원증·전자명함을 한 영역에서 전환해 서비스 연계성과 확장성을 강조합니다.
           </div>
         </div>
+        <a href="/s/C" data-mobile-open="true" style="display: none; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; border: 1px solid #DDDAD2; background: #fff; font-family: inherit; font-size: 14px; font-weight: 600; color: #1A1A18; text-decoration: none;">시안 확인</a>
         <button onClick="{{ voteC }}" disabled="{{ stateC.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateC.btnCursor }}; border: 1px solid {{ stateC.btnBorder }}; background: {{ stateC.btnBg }}; color: {{ stateC.btnFg }}; transition: all .15s;">{{ stateC.btnLabel }}</button>
       </figure>
 
@@ -120,6 +129,7 @@
             불필요한 장식을 덜고 업무·일정·현황 데이터를 직접 노출해 빠른 확인과 실무 효율에 집중합니다.
           </div>
         </div>
+        <a href="/s/D" data-mobile-open="true" style="display: none; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; border: 1px solid #DDDAD2; background: #fff; font-family: inherit; font-size: 14px; font-weight: 600; color: #1A1A18; text-decoration: none;">시안 확인</a>
         <button onClick="{{ voteD }}" disabled="{{ stateD.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateD.btnCursor }}; border: 1px solid {{ stateD.btnBorder }}; background: {{ stateD.btnBg }}; color: {{ stateD.btnFg }}; transition: all .15s;">{{ stateD.btnLabel }}</button>
       </figure>
 
@@ -139,6 +149,7 @@
             모듈형 카드로 정보 성격별 UI를 구분해 높은 완성도와 가독성을 제공합니다.
           </div>
         </div>
+        <a href="/s/E" data-mobile-open="true" style="display: none; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; border: 1px solid #DDDAD2; background: #fff; font-family: inherit; font-size: 14px; font-weight: 600; color: #1A1A18; text-decoration: none;">시안 확인</a>
         <button onClick="{{ voteE }}" disabled="{{ stateE.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateE.btnCursor }}; border: 1px solid {{ stateE.btnBorder }}; background: {{ stateE.btnBg }}; color: {{ stateE.btnFg }}; transition: all .15s;">{{ stateE.btnLabel }}</button>
       </figure>
   </div>
