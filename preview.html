@@ -22,6 +22,7 @@
   @media (max-width:30rem) {
     [data-qr-block] img { display: none !important; }
     [data-mobile-open] { display: flex !important; }
+    [data-sync-toggle] { display: none !important; }
   }
   [data-scan-scroll]::-webkit-scrollbar { width: 6px; }
   [data-scan-scroll]::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 3px; }
@@ -38,7 +39,7 @@
       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-bottom: 6px;">
         <div style="display: flex; align-items: center; gap: 16px;">
           <span style="display: {{ voteTextDisplay }}; font-size: 13px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">총 투표 <strong style="color:#1B4CD8">{{ totalVotes }}</strong>표</span>
-          <button onClick="{{ toggleSync }}" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color:rgba(0,0,0,0.3); color: #1A1A18;">
+          <button onClick="{{ toggleSync }}" data-sync-toggle="true" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color:rgba(0,0,0,0.3); color: #1A1A18;">
             <span style="width: 32px; height: 15px; border-radius: 999px; padding: 2px; display: block; transition: background .18s; background: {{ syncTrack }};">
               <span style="display: block; width: 15px; height: 15px; border-radius: 999px; background: #fff; transition: transform .18s; transform: {{ syncKnob }};"></span>
             </span>
