@@ -1,7 +1,11 @@
 // ── 투표 설정 ──────────────────────────────────────────────
-// 마감 일시(KST). 이 값만 고치면 됩니다. null 이면 마감 없이 상시 투표.
-// 마감·집계·1인 1표는 모두 서버가 판정하므로 클라이언트 시계 조작으로 우회되지 않습니다.
-const VOTE_DEADLINE = "2026-08-26T18:00:00+09:00";
+// 투표 기능 on/off. false 면 투표 UI가 전부 숨겨지고 서버도 투표를 거부한다.
+// 다른 시안 확인 작업에 이 사이트를 재사용할 때는 false 로 둔다.
+const VOTE_ENABLED = false;
+
+// 마감 일시(KST). null 이면 마감 없이 상시 투표.
+// 마감·집계·1인 1표는 모두 서버가 판정하므로 클라이언트 시계 조작으로 우회되지 않는다.
+const VOTE_DEADLINE = null;
 
 const CHOICES = ["A", "B", "C", "D", "E"];
 const COOKIE_NAME = "pv_voter";
@@ -43,6 +47,7 @@ async function readState(env, voter) {
     myVote: row ? row.choice : null,
     closed: isClosed(),
     deadline: VOTE_DEADLINE,
+    voteEnabled: VOTE_ENABLED,
   };
 }
 
@@ -121,6 +126,9 @@ export default {
       }
       if (request.method !== "POST") {
         return json({ error: "method_not_allowed" }, 405, cookie);
+      }
+      if (!VOTE_ENABLED) {
+        return json({ error: "vote_disabled", ...(await readState(env, voter.id)) }, 403, cookie);
       }
       if (isClosed()) {
         return json({ error: "closed", ...(await readState(env, voter.id)) }, 403, cookie);

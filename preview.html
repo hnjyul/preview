@@ -30,7 +30,7 @@
       </div>
       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-bottom: 6px;">
         <div style="display: flex; align-items: center; gap: 16px;">
-          <span style="font-size: 13px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">총 투표 <strong style="color:#1B4CD8">{{ totalVotes }}</strong>표</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 13px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">총 투표 <strong style="color:#1B4CD8">{{ totalVotes }}</strong>표</span>
           <button onClick="{{ toggleSync }}" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color:rgba(0,0,0,0.3); color: #1A1A18;">
             <span style="width: 32px; height: 15px; border-radius: 999px; padding: 2px; display: block; transition: background .18s; background: {{ syncTrack }};">
               <span style="display: block; width: 15px; height: 15px; border-radius: 999px; background: #fff; transition: transform .18s; transform: {{ syncKnob }};"></span>
@@ -38,7 +38,7 @@
             모든 시안 스크롤 동기화
           </button>
         </div>
-        <span style="font-size: 11px; color: {{ deadlineColor }};">{{ deadlineLabel }}</span>
+        <span style="display: {{ voteTextDisplay }}; font-size: 11px; color: {{ deadlineColor }};">{{ deadlineLabel }}</span>
       </div>
     </header>
 
@@ -49,7 +49,7 @@
       <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
         <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
           <span style="font-size: 18px; font-weight: 700; letter-spacing: -.01em;">A안</span>
-          <span style="font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateA.countLabel }}</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateA.countLabel }}</span>
         </figcaption>
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateA.ring }}; border-radius: 20px; box-shadow: {{ stateA.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/A.png" alt="A안 시안" style="display: block; width: 100%;" />
@@ -62,13 +62,13 @@
             업무정보와 주요 서비스를 카드형으로 구성해 개인화와 업무 효율을 균형 있게 제공합니다.
           </div>
         </div>
-        <button onClick="{{ voteA }}" disabled="{{ stateA.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateA.btnCursor }}; border: 1px solid {{ stateA.btnBorder }}; background: {{ stateA.btnBg }}; color: {{ stateA.btnFg }}; transition: all .15s;">{{ stateA.btnLabel }}</button>
+        <button onClick="{{ voteA }}" disabled="{{ stateA.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateA.btnCursor }}; border: 1px solid {{ stateA.btnBorder }}; background: {{ stateA.btnBg }}; color: {{ stateA.btnFg }}; transition: all .15s;">{{ stateA.btnLabel }}</button>
       </figure>
 
       <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
         <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
           <span style="font-size: 18px; font-weight: 700; letter-spacing: -.01em;">B안</span>
-          <span style="font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateB.countLabel }}</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateB.countLabel }}</span>
         </figcaption>
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateB.ring }}; border-radius: 20px; box-shadow: {{ stateB.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/B.png" alt="B안 시안" style="display: block; width: 100%;" />
@@ -81,13 +81,13 @@
             한수원 CI 컬러와 캐릭터를 활용해 친근함과 브랜드 아이덴티티를 강화합니다.
           </div>
         </div>
-        <button onClick="{{ voteB }}" disabled="{{ stateB.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateB.btnCursor }}; border: 1px solid {{ stateB.btnBorder }}; background: {{ stateB.btnBg }}; color: {{ stateB.btnFg }}; transition: all .15s;">{{ stateB.btnLabel }}</button>
+        <button onClick="{{ voteB }}" disabled="{{ stateB.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateB.btnCursor }}; border: 1px solid {{ stateB.btnBorder }}; background: {{ stateB.btnBg }}; color: {{ stateB.btnFg }}; transition: all .15s;">{{ stateB.btnLabel }}</button>
       </figure>
 
       <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
         <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
           <span style="font-size: 18px; font-weight: 700; letter-spacing: -.01em;">C안</span>
-          <span style="font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateC.countLabel }}</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateC.countLabel }}</span>
         </figcaption>
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateC.ring }}; border-radius: 20px; box-shadow: {{ stateC.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/C.png" alt="C안 시안" style="display: block; width: 100%;" />
@@ -100,13 +100,13 @@
             내 정보·모바일사원증·전자명함을 한 영역에서 전환해 서비스 연계성과 확장성을 강조합니다.
           </div>
         </div>
-        <button onClick="{{ voteC }}" disabled="{{ stateC.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateC.btnCursor }}; border: 1px solid {{ stateC.btnBorder }}; background: {{ stateC.btnBg }}; color: {{ stateC.btnFg }}; transition: all .15s;">{{ stateC.btnLabel }}</button>
+        <button onClick="{{ voteC }}" disabled="{{ stateC.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateC.btnCursor }}; border: 1px solid {{ stateC.btnBorder }}; background: {{ stateC.btnBg }}; color: {{ stateC.btnFg }}; transition: all .15s;">{{ stateC.btnLabel }}</button>
       </figure>
 
       <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
         <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
           <span style="font-size: 18px; font-weight: 700; letter-spacing: -.01em;">D안</span>
-          <span style="font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateD.countLabel }}</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateD.countLabel }}</span>
         </figcaption>
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateD.ring }}; border-radius: 20px; box-shadow: {{ stateD.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/D.png" alt="D안 시안" style="display: block; width: 100%;" />
@@ -119,13 +119,13 @@
             불필요한 장식을 덜고 업무·일정·현황 데이터를 직접 노출해 빠른 확인과 실무 효율에 집중합니다.
           </div>
         </div>
-        <button onClick="{{ voteD }}" disabled="{{ stateD.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateD.btnCursor }}; border: 1px solid {{ stateD.btnBorder }}; background: {{ stateD.btnBg }}; color: {{ stateD.btnFg }}; transition: all .15s;">{{ stateD.btnLabel }}</button>
+        <button onClick="{{ voteD }}" disabled="{{ stateD.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateD.btnCursor }}; border: 1px solid {{ stateD.btnBorder }}; background: {{ stateD.btnBg }}; color: {{ stateD.btnFg }}; transition: all .15s;">{{ stateD.btnLabel }}</button>
       </figure>
 
       <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px; flex: 1 1 240px; max-width: 360px; min-width: 200px;">
         <figcaption style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px;">
           <span style="font-size: 18px; font-weight: 700; letter-spacing: -.01em;">E안</span>
-          <span style="font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateE.countLabel }}</span>
+          <span style="display: {{ voteTextDisplay }}; font-size: 12px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">{{ stateE.countLabel }}</span>
         </figcaption>
         <div data-scan-scroll="true" onScroll="{{ onScroll }}" style="width: 100%; aspect-ratio: {{ frameAspect }}; overflow-y: auto; overflow-x: hidden; background: #fff; border: {{ stateE.ring }}; border-radius: 20px; box-shadow: {{ stateE.shadow }}; overscroll-behavior: contain; transition: border-color .15s, box-shadow .15s;">
           <img src="assets/E.png" alt="E안 시안" style="display:block; width: 100%;" />
@@ -138,7 +138,7 @@
             모듈형 카드로 정보 성격별 UI를 구분해 높은 완성도와 가독성을 제공합니다.
           </div>
         </div>
-        <button onClick="{{ voteE }}" disabled="{{ stateE.disabled }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateE.btnCursor }}; border: 1px solid {{ stateE.btnBorder }}; background: {{ stateE.btnBg }}; color: {{ stateE.btnFg }}; transition: all .15s;">{{ stateE.btnLabel }}</button>
+        <button onClick="{{ voteE }}" disabled="{{ stateE.disabled }}" style="display: {{ voteBtnDisplay }}; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 15px 0; border-radius: 11px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: {{ stateE.btnCursor }}; border: 1px solid {{ stateE.btnBorder }}; background: {{ stateE.btnBg }}; color: {{ stateE.btnFg }}; transition: all .15s;">{{ stateE.btnLabel }}</button>
       </figure>
   </div>
 </div>
@@ -174,6 +174,7 @@ class Component extends DCLogic {
       myVote: null,
       closed: false,
       deadline: null,
+      voteEnabled: false,
       loaded: false,
       busy: false,
       err: null
@@ -194,6 +195,7 @@ class Component extends DCLogic {
       myVote: d.myVote,
       closed: d.closed,
       deadline: d.deadline,
+      voteEnabled: !!d.voteEnabled,
       loaded: true,
       busy: false
     });
@@ -218,7 +220,7 @@ class Component extends DCLogic {
   }
   async onVote(id) {
     const s = this.state;
-    if (!s.loaded || s.busy || s.closed || s.myVote) return;
+    if (!s.voteEnabled || !s.loaded || s.busy || s.closed || s.myVote) return;
     this.setState({ busy: true, err: null });
     try {
       const r = await fetch(api('/api/vote'), {
@@ -251,7 +253,7 @@ class Component extends DCLogic {
   voteInfo(id) {
     const s = this.state;
     const selected = s.myVote === id;
-    const locked = !s.loaded || s.busy || s.closed || !!s.myVote;
+    const locked = !s.voteEnabled || !s.loaded || s.busy || s.closed || !!s.myVote;
     const count = s.votes[id] || 0;
     return {
       ring: selected ? '2px solid #1B4CD8' : '1px solid #E4E1D9',
@@ -264,11 +266,12 @@ class Component extends DCLogic {
       btnLabel: selected ? '✓ 투표완료' : (s.closed ? '투표 마감' : '투표하기'),
       btnCursor: !s.loaded ? 'default' : (s.busy ? 'wait' : (locked ? 'not-allowed' : 'pointer')),
       disabled: locked,
-      countLabel: count + '표'
+      countLabel: s.voteEnabled ? count + '표' : ''
     };
   }
   note() {
     const s = this.state;
+    if (!s.voteEnabled) return ['#B0AC9F', ''];
     if (s.err) return ['#C0392B', s.err];
     if (!s.loaded) return ['#B0AC9F', '집계 불러오는 중…'];
     const when = s.deadline ? fmtDeadline(s.deadline) : '';
@@ -288,6 +291,8 @@ class Component extends DCLogic {
       syncKnob: sync ? 'translateX(16px)' : 'translateX(0)',
       frameAspect: '1 / ' + (this.props.frameRatio ?? 2),
       totalVotes,
+      voteBtnDisplay: this.state.voteEnabled ? 'flex' : 'none',
+      voteTextDisplay: this.state.voteEnabled ? 'inline' : 'none',
       deadlineLabel: noteText,
       deadlineColor: noteColor
     };
