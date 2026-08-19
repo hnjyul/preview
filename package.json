@@ -1,0 +1,13 @@
+{
+  "name": "preview",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --local --ip 127.0.0.1 --port 8788",
+    "deploy": "wrangler deploy --dry-run && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.121.0"
+  }
+}
