@@ -294,8 +294,8 @@ class Component extends DCLogic {
     }
   }
   toggleSync() { this.setState(s => ({ sync: !s.sync })); }
-  openVideo1() { window.openVideo('영상 1', './uploads/video1.mp4');}
-  openVideo2() { window.openVideo('영상 2', './uploads/video2.mp4'); }
+  openVideo1() { window.openVideo('영상 1', 'uploads/video1.mp4');}
+  openVideo2() { window.openVideo('영상 2', 'uploads/video2.mp4'); }
   onScroll(e) {
     if (!this.state.sync || this._lock) return;
     const el = e.currentTarget;
