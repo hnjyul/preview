@@ -39,17 +39,15 @@
       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-bottom: 6px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <span style="display: {{ voteTextDisplay }}; font-size: 13px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">총 투표 <strong style="color:#1B4CD8">{{ totalVotes }}</strong>표</span>
-           <a href="./uploads/video1.mp4" target="_blank" rel="noopener noreferrer"
-            style="display: flex; align-items: center; gap: 6px; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 13px; background: #fff; font-family: inherit; font-size: 13px; font-weight: 600; color: #4A473F; text-decoration: none;"
-            style-hover="border-color:#1B4CD8; color:#1B4CD8;">
-            영상 1 보기
-          </a>
+          <button type="button" onClick="{{ openVideo1 }}"
+            style="display:flex; align-items:center; gap:6px; border:1px solid #DDDAD2; border-radius:999px; padding:8px 13px; background:#fff; font-family:inherit; font-size:13px; font-weight:600; color:#4A473F; cursor:pointer;">
+            ▶ 영상 1 보기
+          </button>
 
-          <a href="./uploads/video2.mp4" target="_blank" rel="noopener noreferrer"
-            style="display: flex; align-items: center; gap: 6px; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 13px; background: #fff; font-family: inherit; font-size: 13px; font-weight: 600; color: #4A473F; text-decoration: none;"
-            style-hover="border-color:#1B4CD8; color:#1B4CD8;">
-            영상 2 보기
-          </a>
+          <button type="button" onClick="{{ openVideo2 }}"
+            style="display:flex; align-items:center; gap:6px; border:1px solid #DDDAD2; border-radius:999px; padding:8px 13px; background:#fff; font-family:inherit; font-size:13px; font-weight:600; color:#4A473F; cursor:pointer;">
+            ▶ 영상 2 보기
+          </button>
           <button onClick="{{ toggleSync }}" data-sync-toggle="true" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color:rgba(0,0,0,0.3); color: #1A1A18;">
             <span style="width: 32px; height: 15px; border-radius: 999px; padding: 2px; display: block; transition: background .18s; background: {{ syncTrack }};">
               <span style="display: block; width: 15px; height: 15px; border-radius: 999px; background: #fff; transition: transform .18s; transform: {{ syncKnob }};"></span>
@@ -168,7 +166,6 @@
 
   <footer style="margin-top: clamp(24px,4vw,48px); text-align: center; font-size: 12px; color: rgba(0,0,0,0.4);">&#169; Team A. All rights reserved.</footer>
 </div>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;syncScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;보기 설정&quot;},&quot;frameRatio&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:1.4,&quot;max&quot;:2.6,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;보기 설정&quot;}}">
 // ── 투표 ───────────────────────────────────────────────────
@@ -209,6 +206,8 @@ class Component extends DCLogic {
     this.onScroll = this.onScroll.bind(this);
     this.toggleSync = this.toggleSync.bind(this);
     this.onVote = this.onVote.bind(this);
+    this.openVideo1 = this.openVideo1.bind(this);
+    this.openVideo2 = this.openVideo2.bind(this);
   }
   componentDidMount() {
     this.refresh();
@@ -295,6 +294,8 @@ class Component extends DCLogic {
     }
   }
   toggleSync() { this.setState(s => ({ sync: !s.sync })); }
+  openVideo1() { window.openVideo('영상 1', './uploads/video1.mp4');}
+  openVideo2() { window.openVideo('영상 2', './uploads/video2.mp4'); }
   onScroll(e) {
     if (!this.state.sync || this._lock) return;
     const el = e.currentTarget;
@@ -349,6 +350,8 @@ class Component extends DCLogic {
     const out = {
       onScroll: this.onScroll,
       toggleSync: this.toggleSync,
+      openVideo1: this.openVideo1,
+      openVideo2: this.openVideo2,
       syncTrack: sync ? '#1A1A18' : '#D3CFC6',
       syncKnob: sync ? 'translateX(16px)' : 'translateX(0)',
       frameAspect: '1 / ' + (this.props.frameRatio ?? 2),
@@ -367,5 +370,44 @@ class Component extends DCLogic {
 }
 
 </script>
+
+<!--영상 모달-->
+<dialog id="videoModal"
+  style="width:min(880px, calc(100vw - 32px)); padding:0; border:0; border-radius:20px; overflow:hidden; background:#111; color:#fff;">
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:#1A1A18;">
+    <strong id="videoTitle" style="font-size:16px;font-family: Pretendard;">영상 보기</strong>
+    <button type="button" onclick="closeVideo()"
+      style="border:0; background:transparent; color:#fff; font-size:28px; line-height:1; cursor:pointer;">
+      ×
+    </button>
+  </div>
+
+  <video id="popupVideo" controls playsinline
+    style="display:block; width:100%; max-height:75vh; background:#000;">
+  </video>
+</dialog>
+
+<script>
+  window.openVideo = function(title, url) {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('popupVideo');
+
+    document.getElementById('videoTitle').textContent = title;
+    video.src = url;
+    video.load();
+    modal.showModal();
+    video.play().catch(() => {});
+  };
+
+  window.closeVideo = function() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('popupVideo');
+
+    video.pause();
+    video.currentTime = 0;
+    modal.close();
+  };
+</script>
+
 </body>
 </html>
