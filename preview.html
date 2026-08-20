@@ -294,8 +294,12 @@ class Component extends DCLogic {
     }
   }
   toggleSync() { this.setState(s => ({ sync: !s.sync })); }
-  openVideo1() { window.openVideo('영상 1', 'uploads/video1.mp4');}
-  openVideo2() { window.openVideo('영상 2', 'uploads/video2.mp4'); }
+  openVideo1() {
+    window.openYouTubeVideo('영상 1', 'https://www.youtube.com/embed/rCEY9Eyd48g?playsinline=1&rel=0');
+  }
+  openVideo2() {
+    window.openYouTubeVideo('영상 2', 'https://www.youtube.com/embed/9oTGDF0UScU?playsinline=1&rel=0');
+  }
   onScroll(e) {
     if (!this.state.sync || this._lock) return;
     const el = e.currentTarget;
@@ -371,11 +375,29 @@ class Component extends DCLogic {
 
 </script>
 
-<!--영상 모달-->
+<!-- 영상 모달 -->
+<style>
+  #videoModal::backdrop { background: rgba(0,0,0,.72); }
+  @media (max-width: 600px) {
+    #videoModal {
+      width: 100vw !important;
+      max-width: none !important;
+      height: 100dvh !important;
+      max-height: none !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+    }
+    #popupVideo, #youtubePlayer {
+      height: calc(100dvh - 61px) !important;
+      max-height: none !important;
+    }
+  }
+</style>
+
 <dialog id="videoModal"
-  style="width:min(880px, calc(100vw - 32px)); padding:0; border:0; border-radius:20px; overflow:hidden; background:#111; color:#fff;">
+  style="width:min(430px, calc(100vw - 32px)); padding:0; border:0; border-radius:20px; overflow:hidden; background:#111; color:#fff;">
   <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:#1A1A18;">
-    <strong id="videoTitle" style="font-size:16px;font-family: Pretendard;">영상 보기</strong>
+    <strong id="videoTitle" style="font-size:16px;font-family:pretendard;">영상 보기</strong>
     <button type="button" onclick="closeVideo()"
       style="border:0; background:transparent; color:#fff; font-size:28px; line-height:1; cursor:pointer;">
       ×
@@ -383,28 +405,56 @@ class Component extends DCLogic {
   </div>
 
   <video id="popupVideo" controls playsinline
-    style="display:block; width:100%; max-height:75vh; background:#000;">
+    style="display:none; width:100%; max-height:75vh; background:#000;">
   </video>
+
+  <iframe id="youtubePlayer"
+    title="영상 재생"
+    style="display:none; width:100%; height:min(76vh, 760px); border:0; background:#000;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
 </dialog>
 
 <script>
   window.openVideo = function(title, url) {
     const modal = document.getElementById('videoModal');
     const video = document.getElementById('popupVideo');
+    const youtube = document.getElementById('youtubePlayer');
 
     document.getElementById('videoTitle').textContent = title;
+    youtube.src = '';
+    youtube.style.display = 'none';
+    video.style.display = 'block';
     video.src = url;
     video.load();
     modal.showModal();
     video.play().catch(() => {});
   };
 
+  window.openYouTubeVideo = function(title, url) {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('popupVideo');
+    const youtube = document.getElementById('youtubePlayer');
+
+    document.getElementById('videoTitle').textContent = title;
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    video.style.display = 'none';
+    youtube.src = url;
+    youtube.style.display = 'block';
+    modal.showModal();
+  };
+
   window.closeVideo = function() {
     const modal = document.getElementById('videoModal');
     const video = document.getElementById('popupVideo');
+    const youtube = document.getElementById('youtubePlayer');
 
     video.pause();
     video.currentTime = 0;
+    youtube.src = '';
     modal.close();
   };
 </script>
