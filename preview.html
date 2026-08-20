@@ -37,8 +37,19 @@
         <h1 style="margin: 0; font-size: clamp(24px,3vw,34px); font-weight: 700; letter-spacing: -.02em;">한국수력원자력 디자인 시안</h1>
       </div>
       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px; padding-bottom: 6px;">
-        <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
           <span style="display: {{ voteTextDisplay }}; font-size: 13px; color: rgba(0,0,0,0.5); font-variant-numeric: tabular-nums;">총 투표 <strong style="color:#1B4CD8">{{ totalVotes }}</strong>표</span>
+           <a href="./uploads/video1.mp4" target="_blank" rel="noopener noreferrer"
+            style="display: flex; align-items: center; gap: 6px; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 13px; background: #fff; font-family: inherit; font-size: 13px; font-weight: 600; color: #4A473F; text-decoration: none;"
+            style-hover="border-color:#1B4CD8; color:#1B4CD8;">
+            영상 1 보기
+          </a>
+
+          <a href="./uploads/video2.mp4" target="_blank" rel="noopener noreferrer"
+            style="display: flex; align-items: center; gap: 6px; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 13px; background: #fff; font-family: inherit; font-size: 13px; font-weight: 600; color: #4A473F; text-decoration: none;"
+            style-hover="border-color:#1B4CD8; color:#1B4CD8;">
+            영상 2 보기
+          </a>
           <button onClick="{{ toggleSync }}" data-sync-toggle="true" style="display: flex; align-items: center; gap: 9px; background: none; border: 1px solid #DDDAD2; border-radius: 999px; padding: 8px 14px 8px 12px; cursor: pointer; font-family: inherit; font-size: 13px; color: #4A473F;" style-hover="border-color:rgba(0,0,0,0.3); color: #1A1A18;">
             <span style="width: 32px; height: 15px; border-radius: 999px; padding: 2px; display: block; transition: background .18s; background: {{ syncTrack }};">
               <span style="display: block; width: 15px; height: 15px; border-radius: 999px; background: #fff; transition: transform .18s; transform: {{ syncKnob }};"></span>
